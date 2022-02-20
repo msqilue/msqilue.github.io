@@ -1,0 +1,311 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SQL基本语法笔记 | 十七</title><meta name="keywords" content="blog"><meta name="author" content="十七"><meta name="copyright" content="十七"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL基本语法笔记">
+<meta property="og:url" content="https://msqilue.github.io/2022/02/20/SQL%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="十七">
+<meta property="og:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://msqilue.github.io/background/">
+<meta property="article:published_time" content="2022-02-20T08:05:34.000Z">
+<meta property="article:modified_time" content="2022-02-20T09:25:56.189Z">
+<meta property="article:author" content="十七">
+<meta property="article:tag" content="blog">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://msqilue.github.io/background/"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://msqilue.github.io/2022/02/20/SQL%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%E7%AC%94%E8%AE%B0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?d0e07d03dc75f7255c9851de13c89d78";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 十七","link":"链接: ","source":"来源: 十七","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2022-02-20 17:25:56'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><link rel="stylesheet" href="APlayer.min.css"><div id="aplayer"></div><script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js" async></script><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}const fontSizeVal = saveToLocal.get('global-font-size')
+if (fontSizeVal !== undefined) {
+  document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+}})()</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://unpkg.com/xiaokang-style/butterfly/css/tags.css"><meta name="generator" content="Hexo 5.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" data-lazy-src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/shuoshuo/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/background/)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">十七</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/shuoshuo/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">SQL基本语法笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-02-20T08:05:34.000Z" title="发表于 2022-02-20 16:05:34">2022-02-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-02-20T09:25:56.189Z" title="更新于 2022-02-20 17:25:56">2022-02-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">900</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM sys_dept</span><br><span class="line">SELECT DISTINCT 列名 FROM 表名</span><br><span class="line">SELECT * FROM 表名 WHERE 列名 = 值</span><br><span class="line">SELECT * FROM 表名 WHERE 列名 BETWEEN 值 AND 值</span><br><span class="line">SELECT * FROM 表名 ORDER BY 列名</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">INSERT INTO 表名 (列名,列名) VALUES(值，值)</span><br><span class="line">INSERT INTO 表名 VALUES(值，值)</span><br><span class="line"></span><br><span class="line">UPDATE 表名称 SET 列名 = 值 WHERE 列 = 值</span><br><span class="line"></span><br><span class="line">DELETE FROM 表名称 WHERE 列名 = 值</span><br><span class="line">DELETE FROM 表名 <span class="comment">#删除所有行但不删除表</span></span><br><span class="line">DELETE * FROM 表名</span><br><span class="line"></span><br><span class="line"><span class="comment"># 选取特定行</span></span><br><span class="line">SELECT top number|percent 列 FROM 表名</span><br><span class="line">SELECT 列 FROM 表名 LIMIT number</span><br><span class="line"></span><br><span class="line"><span class="comment"># %: 匹配0个或多个字符；</span></span><br><span class="line"><span class="comment">#  _: 匹配一个字符；</span></span><br><span class="line"><span class="comment"># [ ]：匹配[ ]中的任意一个字符(若要比较的字符是连续的，则可以用连字符“-”表 达 )；</span></span><br><span class="line"><span class="comment"># [^] 或者 [!]：不匹配[ ]中的任意一个字符</span></span><br><span class="line">SELECT 列 FROM 表名 WHERE 列名 LIKE <span class="string">&#x27;N%&#x27;</span> <span class="comment">#以N开头</span></span><br><span class="line">SELECT 列 FROM 表名 WHERE 列名 NOT LIKE <span class="string">&#x27;%g&#x27;</span> <span class="comment">#不以g结尾</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># in 允许在where中有多个value</span></span><br><span class="line">SELECT 列 FROM 表名 WHERE 列名 IN (值,值...)</span><br><span class="line"></span><br><span class="line"><span class="comment"># between 值 and 值 不同数据库规则不同有的包括边界值，有的不包括</span></span><br><span class="line">SELECT 列 FROM 表名 WHERE 列名 BETWEEN 值 AND 值</span><br><span class="line">SELECT 列 FROM 表名 WHERE 列名  NOT BETWEEN 值 AND 值</span><br><span class="line"></span><br><span class="line"><span class="comment"># Alias 实例: 使用表名称别名</span></span><br><span class="line">SELECT 列 AS 别名 FROM 表名</span><br><span class="line"></span><br><span class="line"><span class="comment">#JOIN: 如果表中有至少一个匹配，则返回行</span></span><br><span class="line"><span class="comment">#inner join: 只会列出匹配的行</span></span><br><span class="line"><span class="comment">#LEFT JOIN: 即使右表中没有匹配，也从左表返回所有的行</span></span><br><span class="line"><span class="comment">#RIGHT JOIN: 即使左表中没有匹配，也从右表返回所有的行</span></span><br><span class="line"><span class="comment">#FULL JOIN: 只要其中一个表中存在匹配，就返回全部行</span></span><br><span class="line">SELECT s1.id,s1.name,s2.dept FROM s1,s2 WHERE s1.id = s2.id</span><br><span class="line">SELECT s1.id,s1.name,s2.dept FROM s1 INNER s2 ON s1.id = s2.id</span><br><span class="line"></span><br><span class="line"><span class="comment">#UNION 操作符用于合并两个或多个 SELECT 语句的结果集。</span></span><br><span class="line"><span class="comment">#UNION 内部的 SELECT 语句必须拥有相同数量的列。列也必须拥有相似的数据类型。同时，每条 SELECT 语句中的列的顺序必须相同。</span></span><br><span class="line"><span class="comment">#union 不重复；union all 全部</span></span><br><span class="line">SELECT 列名1 FROM 表名1</span><br><span class="line">UNION</span><br><span class="line">SELECT 列名2 FROM 表名2</span><br><span class="line"></span><br><span class="line"><span class="comment">#SELECT INTO 语句可用于创建表的备份复件。</span></span><br><span class="line">SELECT 列 INTO 新表名 IN ‘数据库名’ FROM 表名</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建数据库</span></span><br><span class="line">CREATE DATABASE 数据库名</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建数据库中的表</span></span><br><span class="line">CREATE TABLE 表名称</span><br><span class="line">(</span><br><span class="line">列名1 数据类型,</span><br><span class="line">列名1 数据类型,</span><br><span class="line">...</span><br><span class="line">)</span><br><span class="line"><span class="comment"># 整数</span></span><br><span class="line">INTEGER(size) </span><br><span class="line">INT(size) </span><br><span class="line">SMALLINT(size)  </span><br><span class="line">TINYINT(size) </span><br><span class="line"><span class="comment"># 带有小数的数字</span></span><br><span class="line">DECIMAL(size,d)</span><br><span class="line">NUMERIC(size,d)</span><br><span class="line"><span class="comment"># 固定长度字符串</span></span><br><span class="line">CHAR(size)</span><br><span class="line"><span class="comment">#可变长度字符串</span></span><br><span class="line">VARCHAR(size)</span><br><span class="line"><span class="comment"># 日期</span></span><br><span class="line">DATA(yyyymmdd)</span><br><span class="line"></span><br><span class="line"><span class="comment"># sql约束</span></span><br><span class="line"><span class="comment"># NOT NULL 约束强制列不接受 NULL 值</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># UNIQUE 约束唯一标识数据库表中的每条记录。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># PRIMARY KEY 约束唯一标识数据库表中的每条记录</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># FOREIGN KEY 约束用于预防破坏表之间连接的动作。</span></span><br><span class="line"><span class="comment"># FOREIGN KEY 约束也能防止非法数据插入外键列，因为它必须是它指向的那个表中的值之一。 </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># CHECK 约束用于限制列中的值的范围</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># DEFAULT 约束用于向列中插入默认值。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># CREATE INDEX 语句用于在表中创建索引。</span></span><br><span class="line"><span class="comment"># 在不读取整个表的情况下，索引使数据库应用程序可以更快地查找数据。</span></span><br><span class="line">CREATE INDEX 索引名 ON 表名(列,列)</span><br><span class="line"></span><br><span class="line"><span class="comment"># ALTER TABLE 语句用于在已有的表中添加、修改或删除列。</span></span><br><span class="line">ALTER TABLE 表名 ADD 列名 datatype </span><br><span class="line">ALTER TABLE 表名 ALTER COLUMN 列名 datatype</span><br><span class="line">ALTER TABLE 表名 DROP COLUMN 列名</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加  约束</span></span><br><span class="line">ADD 约束名(列) </span><br><span class="line"><span class="comment"># 重命名 约束 并定义多个列的约束</span></span><br><span class="line">ADD CONSTRAINT 别名 约束名 (列,列)</span><br><span class="line"><span class="comment"># 撤销约束</span></span><br><span class="line">DROP INDEX/CONSTRAINT 列名</span><br><span class="line"></span><br><span class="line"><span class="comment"># Auto-increment 会在新记录插入表中时生成一个唯一的数字。</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">十七</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://msqilue.github.io/2022/02/20/SQL%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%E7%AC%94%E8%AE%B0/">https://msqilue.github.io/2022/02/20/SQL基本语法笔记/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://msqilue.github.io" target="_blank">十七</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/blog/">blog</a></div><div class="post_share"><div class="social-share" data-image="/background/" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechatpay.png" target="_blank"><img class="post-qr-code-img" data-lazy-src="/img/wechatpay.png" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.png" target="_blank"><img class="post-qr-code-img" data-lazy-src="/img/alipay.png" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/03/28/%E9%9A%8F%E7%AC%94/"><img class="next-cover" data-lazy-src="/background/" onerror="onerror=null;src='/img/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">随笔</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/01/05/基于hexo+Git+Github的个人博客搭建/" title="基于hexo+Git+Github的个人博客搭建"><img class="cover" data-lazy-src="/background/" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-05</div><div class="title">基于hexo+Git+Github的个人博客搭建</div></div></a></div><div><a href="/2021/01/15/matery主题安装及优化/" title="matery主题安装及优化"><img class="cover" data-lazy-src="/background/" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-15</div><div class="title">matery主题安装及优化</div></div></a></div><div><a href="/2021/01/15/node-js验证/" title="node.js验证"><img class="cover" data-lazy-src="/background/" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-15</div><div class="title">node.js验证</div></div></a></div><div><a href="/2021/01/05/博客准备/" title="博客准备"><img class="cover" data-lazy-src="/background/" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-05</div><div class="title">博客准备</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">十七</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/msqilue" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="/1291799550" target="_blank" title="1291799550"><i class="fab fa-qq"></i></a><a class="social-icon" href="/1291799550@qq.com" target="_blank" title="1291799550@qq.com"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">Blog建设中。。。</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/02/20/SQL%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%E7%AC%94%E8%AE%B0/" title="SQL基本语法笔记"><img data-lazy-src="/background/" onerror="this.onerror=null;this.src='/img/404.png'" alt="SQL基本语法笔记"/></a><div class="content"><a class="title" href="/2022/02/20/SQL%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%E7%AC%94%E8%AE%B0/" title="SQL基本语法笔记">SQL基本语法笔记</a><time datetime="2022-02-20T08:05:34.000Z" title="发表于 2022-02-20 16:05:34">2022-02-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/28/%E9%9A%8F%E7%AC%94/" title="随笔"><img data-lazy-src="/background/" onerror="this.onerror=null;this.src='/img/404.png'" alt="随笔"/></a><div class="content"><a class="title" href="/2021/03/28/%E9%9A%8F%E7%AC%94/" title="随笔">随笔</a><time datetime="2021-03-28T15:18:50.000Z" title="发表于 2021-03-28 23:18:50">2021-03-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/28/%E4%B8%83%E7%88%B7/" title="七爷"><img data-lazy-src="/background/" onerror="this.onerror=null;this.src='/img/404.png'" alt="七爷"/></a><div class="content"><a class="title" href="/2021/03/28/%E4%B8%83%E7%88%B7/" title="七爷">七爷</a><time datetime="2021-03-28T14:59:21.000Z" title="发表于 2021-03-28 22:59:21">2021-03-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/20/%E5%A4%8F%E7%9B%AE%E5%8F%8B%E4%BA%BA%E5%B8%90/" title="夏目友人帐"><img data-lazy-src="/background/" onerror="this.onerror=null;this.src='/img/404.png'" alt="夏目友人帐"/></a><div class="content"><a class="title" href="/2021/03/20/%E5%A4%8F%E7%9B%AE%E5%8F%8B%E4%BA%BA%E5%B8%90/" title="夏目友人帐">夏目友人帐</a><time datetime="2021-03-20T14:01:22.000Z" title="发表于 2021-03-20 22:01:22">2021-03-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/20/%E6%88%91%E6%98%AF%E6%B1%9F%E5%B0%8F%E7%99%BD/" title="我是江小白“"><img data-lazy-src="/background/" onerror="this.onerror=null;this.src='/img/404.png'" alt="我是江小白“"/></a><div class="content"><a class="title" href="/2021/03/20/%E6%88%91%E6%98%AF%E6%B1%9F%E5%B0%8F%E7%99%BD/" title="我是江小白“">我是江小白“</a><time datetime="2021-03-20T14:00:17.000Z" title="发表于 2021-03-20 22:00:17">2021-03-20</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By 十七</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my blog!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> {preloader.endLoading()})</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    let initData = {
+      el: '#vcomment',
+      appId: '8utjIWPgr7X2B7Ps248tMP9R-MdYXbMMI',
+      appKey: 'KsGXhs1L0ke3mCKBl7ILGVtb',
+      placeholder: '__________到此一游~',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '//i0.hdslb.com/bfs/emote/', 
+      emojiMaps: {"bilibili_tv_png-doge":"https://7.dusays.com/2021/01/15/0a0ee05337f89.png","bilibili_tv_png-亲亲":"https://7.dusays.com/2021/01/15/c6aa60683e250.png","bilibili_tv_png-偷笑":"https://7.dusays.com/2021/01/15/7a8814dd651f3.png","bilibili_tv_png-再见":"https://7.dusays.com/2021/01/15/59bc8634b3cab.png","bilibili_tv_png-冷漠":"https://7.dusays.com/2021/01/15/98e52b4429947.png","bilibili_tv_png-发怒":"https://7.dusays.com/2021/01/15/839e338e6cf31.png","bilibili_tv_png-发财":"https://7.dusays.com/2021/01/15/e9a8aee6b6355.png","bilibili_tv_png-可爱":"https://7.dusays.com/2021/01/15/d511666c8fc50.png","bilibili_tv_png-吐血":"https://7.dusays.com/2021/01/15/df332e7200c34.png","bilibili_tv_png-呆":"https://7.dusays.com/2021/01/15/16be5d17d3491.png","bilibili_tv_png-呕吐":"https://7.dusays.com/2021/01/15/e901954e3ce28.png","bilibili_tv_png-困":"https://7.dusays.com/2021/01/15/e1f430b8ffee0.png","bilibili_tv_png-坏笑":"https://7.dusays.com/2021/01/15/2f1187c1e7c1b.png","bilibili_tv_png-大佬":"https://7.dusays.com/2021/01/15/7258c4484886f.png","bilibili_tv_png-大哭":"https://7.dusays.com/2021/01/15/23280a335b7a5.png","bilibili_tv_png-委屈":"https://7.dusays.com/2021/01/15/417435f5cbc07.png","bilibili_tv_png-害羞":"https://7.dusays.com/2021/01/15/9cc4c11f7c028.png","bilibili_tv_png-尴尬":"https://7.dusays.com/2021/01/15/0b19820e89197.png","bilibili_tv_png-微笑":"https://7.dusays.com/2021/01/15/cba0a1130e789.png","bilibili_tv_png-思考":"https://7.dusays.com/2021/01/15/6cb813c28f1c0.png","bilibili_tv_png-惊吓":"https://7.dusays.com/2021/01/15/145c0b556f514.png","bilibili_tv_png-打脸":"https://7.dusays.com/2021/01/15/5ca38aa7c4d37.png","bilibili_tv_png-抓狂":"https://7.dusays.com/2021/01/15/8428f7eebdc93.png","bilibili_tv_png-抠鼻":"https://7.dusays.com/2021/01/15/0ef529113d478.png","bilibili_tv_png-斜眼笑":"https://7.dusays.com/2021/01/15/c5a39602966da.png","bilibili_tv_png-无奈":"https://7.dusays.com/2021/01/15/a16fdbe57cd27.png","bilibili_tv_png-晕":"https://7.dusays.com/2021/01/15/c89d19b999c97.png","bilibili_tv_png-流汗":"https://7.dusays.com/2021/01/15/1d917a1fe340c.png","bilibili_tv_png-流泪":"https://7.dusays.com/2021/01/15/8aa4bbd12752b.png","bilibili_tv_png-流鼻血":"https://7.dusays.com/2021/01/15/ad54f646765f8.png","bilibili_tv_png-点赞":"https://7.dusays.com/2021/01/15/c0e508c83af53.png","bilibili_tv_png-生气":"https://7.dusays.com/2021/01/15/b9b46598a1ab6.png","bilibili_tv_png-生病":"https://7.dusays.com/2021/01/15/ade7afb4168f2.png","bilibili_tv_png-疑问":"https://7.dusays.com/2021/01/15/a848b368c503b.png","bilibili_tv_png-白眼":"https://7.dusays.com/2021/01/15/5942516c4cd1a.png","bilibili_tv_png-皱眉":"https://7.dusays.com/2021/01/15/e04be69ab14b2.png","bilibili_tv_png-目瞪口呆":"https://7.dusays.com/2021/01/15/000b8ed58402b.png","bilibili_tv_png-睡着":"https://7.dusays.com/2021/01/15/592fb8843b9d8.png","bilibili_tv_png-笑哭":"https://7.dusays.com/2021/01/15/0f74468ffc23c.png","bilibili_tv_png-腼腆":"https://7.dusays.com/2021/01/15/252db12c39e2b.png","bilibili_tv_png-色":"https://7.dusays.com/2021/01/15/edcf5051ad5e9.png","bilibili_tv_png-调侃":"https://7.dusays.com/2021/01/15/6b2c24e393a4b.png","bilibili_tv_png-调皮":"https://7.dusays.com/2021/01/15/3da974d1c1efd.png","bilibili_tv_png-鄙视":"https://7.dusays.com/2021/01/15/cbc9a757942c0.png","bilibili_tv_png-闭嘴":"https://7.dusays.com/2021/01/15/e26b7d8aa41e2.png","bilibili_tv_png-难过":"https://7.dusays.com/2021/01/15/0c0e4a1468343.png","bilibili_tv_png-馋":"https://7.dusays.com/2021/01/15/832a528abe2f8.png","bilibili_tv_png-鬼脸":"https://7.dusays.com/2021/01/15/6786a64e782d2.png","bilibili_tv_png-黑人问号":"https://7.dusays.com/2021/01/15/ae8afd8b6031e.png","bilibili_tv_png-鼓掌":"https://7.dusays.com/2021/01/15/e8f8bcf2911d2.png","罗小黑-你好呀":"https://7.dusays.com/2021/01/15/0aac889bc91dc.png","罗小黑-加油":"https://7.dusays.com/2021/01/15/f96411ca35b5d.png","罗小黑-可可爱爱":"https://7.dusays.com/2021/01/15/1add473588294.png","罗小黑-吃瓜":"https://7.dusays.com/2021/01/15/2acccc5d83efc.png","罗小黑-嗨":"https://7.dusays.com/2021/01/15/3ec54fb44f158.png","罗小黑-大麦":"https://7.dusays.com/2021/01/15/29415b3ad702f.png","罗小黑-干杯":"https://7.dusays.com/2021/01/15/10788d14159d0.png","罗小黑-找彩蛋":"https://7.dusays.com/2021/01/15/9dd8a4ad6c014.png","罗小黑-撒花":"https://7.dusays.com/2021/01/15/de0b46f01a053.png","罗小黑-来了":"https://7.dusays.com/2021/01/15/c3a1f260367b5.png","罗小黑-歪在吗":"https://7.dusays.com/2021/01/15/1e53477d4a20f.png","罗小黑-求包养":"https://7.dusays.com/2021/01/15/bd855b8bd988f.png","罗小黑-看电影":"https://7.dusays.com/2021/01/15/97f51c0517fef.png","罗小黑-真棒":"https://7.dusays.com/2021/01/15/2916c8cef70af.png","罗小黑-自来水":"https://7.dusays.com/2021/01/15/4cbc841fdb044.png","罗小黑-鼓掌":"https://7.dusays.com/2021/01/15/c824eadfe0153.png","洛天依-傲娇":"https://7.dusays.com/2021/01/15/74694569f29b1.png","洛天依-冷漠":"https://7.dusays.com/2021/01/15/1b6a92369ee85.png","洛天依-前排":"https://7.dusays.com/2021/01/15/403e768dd3700.png","洛天依-去吧":"https://7.dusays.com/2021/01/15/cc2e21ba33c0e.png","洛天依-可以":"https://7.dusays.com/2021/01/15/feb8e047e84b6.png","洛天依-吃包群众":"https://7.dusays.com/2021/01/15/f8cfffd282850.png","洛天依-吃药":"https://7.dusays.com/2021/01/15/f2890552479f3.png","洛天依-哈哈哈":"https://7.dusays.com/2021/01/15/b3b4b189ed5d8.png","洛天依-打尻":"https://7.dusays.com/2021/01/15/abb0ffffc586e.png","洛天依-掀桌":"https://7.dusays.com/2021/01/15/ac7ad9b47e822.png","洛天依-无言以对":"https://7.dusays.com/2021/01/15/b4a0a38d7508c.png","洛天依-消灭你":"https://7.dusays.com/2021/01/15/7123998a2f7f3.png","洛天依-滑稽":"https://7.dusays.com/2021/01/15/f6b3216ffebbf.png","洛天依-爱你哦":"https://7.dusays.com/2021/01/15/0e1da9b2e3fec.png","洛天依-看透一切":"https://7.dusays.com/2021/01/15/18774f4260441.png","洛天依-阴阳先生":"https://7.dusays.com/2021/01/15/a3b7d20e94bba.png","洛天依-？？？":"https://7.dusays.com/2021/01/15/4f4537f47afad.png"},
+      enableQQ: true,
+      path: window.location.pathname,
+    }
+
+    if (true) { 
+      initData.requiredFields= ('nick,mail'.split(','))
+    }
+    
+    if (false) {
+      const otherData = false
+      initData = Object.assign(initData, otherData)
+    }
+    
+    const valine = new Valine(initData)
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><div class="aplayer no-destroy" data-id="7192856816" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config_change',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  if (typeof gtag === 'function') {
+    gtag('config', '', {'page_path': window.location.pathname});
+  }
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+
+document.addEventListener('pjax:send', function () {
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})</script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right","hOffset":100,"vOffset":-50},"mobile":{"show":true,"scale":0.5}});</script></body></html>

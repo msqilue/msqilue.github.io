@@ -3,7 +3,7 @@
   <entry>
     <title>基于hexo+Git+Github的个人博客搭建</title>
     <url>/2021/01/05/%E5%9F%BA%E4%BA%8Ehexo+Git+Github%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="1-安装node-js"><a href="#1-安装node-js" class="headerlink" title="1.安装node.js"></a>1.安装node.js</h1><ul>
+    <content><![CDATA[<h1 id="1-安装node-js"><a href="#1-安装node-js" class="headerlink" title="1.安装node.js"></a>1.安装node.js</h1><ul>
 <li><a href="%E9%93%BE%E6%8E%A5%EF%BC%9Ahttps://pan.baidu.com/s/1ofkGeZ4xConH3ATozW4a_w">node.js下载</a>  提取码：v5sv </li>
 <li><a href="https://blog.csdn.net/qq_43285335/article/details/90696126">node.js搭建教程</a>  </li>
 <li><a href="https://msqilue.github.io/2021/01/15/node-js%E9%AA%8C%E8%AF%81/">验证</a></li>
@@ -51,9 +51,28 @@
       </tags>
   </entry>
   <entry>
+    <title>SQL基本语法笔记</title>
+    <url>/2022/02/20/SQL%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">SELECT * FROM sys_dept</span><br><span class="line">SELECT DISTINCT 列名 FROM 表名</span><br><span class="line">SELECT * FROM 表名 WHERE 列名 = 值</span><br><span class="line">SELECT * FROM 表名 WHERE 列名 BETWEEN 值 AND 值</span><br><span class="line">SELECT * FROM 表名 ORDER BY 列名</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">INSERT INTO 表名 (列名,列名) VALUES(值，值)</span><br><span class="line">INSERT INTO 表名 VALUES(值，值)</span><br><span class="line"></span><br><span class="line">UPDATE 表名称 SET 列名 = 值 WHERE 列 = 值</span><br><span class="line"></span><br><span class="line">DELETE FROM 表名称 WHERE 列名 = 值</span><br><span class="line">DELETE FROM 表名 <span class="comment">#删除所有行但不删除表</span></span><br><span class="line">DELETE * FROM 表名</span><br><span class="line"></span><br><span class="line"><span class="comment"># 选取特定行</span></span><br><span class="line">SELECT top number|percent 列 FROM 表名</span><br><span class="line">SELECT 列 FROM 表名 LIMIT number</span><br><span class="line"></span><br><span class="line"><span class="comment"># %: 匹配0个或多个字符；</span></span><br><span class="line"><span class="comment">#  _: 匹配一个字符；</span></span><br><span class="line"><span class="comment"># [ ]：匹配[ ]中的任意一个字符(若要比较的字符是连续的，则可以用连字符“-”表 达 )；</span></span><br><span class="line"><span class="comment"># [^] 或者 [!]：不匹配[ ]中的任意一个字符</span></span><br><span class="line">SELECT 列 FROM 表名 WHERE 列名 LIKE <span class="string">&#x27;N%&#x27;</span> <span class="comment">#以N开头</span></span><br><span class="line">SELECT 列 FROM 表名 WHERE 列名 NOT LIKE <span class="string">&#x27;%g&#x27;</span> <span class="comment">#不以g结尾</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># in 允许在where中有多个value</span></span><br><span class="line">SELECT 列 FROM 表名 WHERE 列名 IN (值,值...)</span><br><span class="line"></span><br><span class="line"><span class="comment"># between 值 and 值 不同数据库规则不同有的包括边界值，有的不包括</span></span><br><span class="line">SELECT 列 FROM 表名 WHERE 列名 BETWEEN 值 AND 值</span><br><span class="line">SELECT 列 FROM 表名 WHERE 列名  NOT BETWEEN 值 AND 值</span><br><span class="line"></span><br><span class="line"><span class="comment"># Alias 实例: 使用表名称别名</span></span><br><span class="line">SELECT 列 AS 别名 FROM 表名</span><br><span class="line"></span><br><span class="line"><span class="comment">#JOIN: 如果表中有至少一个匹配，则返回行</span></span><br><span class="line"><span class="comment">#inner join: 只会列出匹配的行</span></span><br><span class="line"><span class="comment">#LEFT JOIN: 即使右表中没有匹配，也从左表返回所有的行</span></span><br><span class="line"><span class="comment">#RIGHT JOIN: 即使左表中没有匹配，也从右表返回所有的行</span></span><br><span class="line"><span class="comment">#FULL JOIN: 只要其中一个表中存在匹配，就返回全部行</span></span><br><span class="line">SELECT s1.id,s1.name,s2.dept FROM s1,s2 WHERE s1.id = s2.id</span><br><span class="line">SELECT s1.id,s1.name,s2.dept FROM s1 INNER s2 ON s1.id = s2.id</span><br><span class="line"></span><br><span class="line"><span class="comment">#UNION 操作符用于合并两个或多个 SELECT 语句的结果集。</span></span><br><span class="line"><span class="comment">#UNION 内部的 SELECT 语句必须拥有相同数量的列。列也必须拥有相似的数据类型。同时，每条 SELECT 语句中的列的顺序必须相同。</span></span><br><span class="line"><span class="comment">#union 不重复；union all 全部</span></span><br><span class="line">SELECT 列名1 FROM 表名1</span><br><span class="line">UNION</span><br><span class="line">SELECT 列名2 FROM 表名2</span><br><span class="line"></span><br><span class="line"><span class="comment">#SELECT INTO 语句可用于创建表的备份复件。</span></span><br><span class="line">SELECT 列 INTO 新表名 IN ‘数据库名’ FROM 表名</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建数据库</span></span><br><span class="line">CREATE DATABASE 数据库名</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建数据库中的表</span></span><br><span class="line">CREATE TABLE 表名称</span><br><span class="line">(</span><br><span class="line">列名1 数据类型,</span><br><span class="line">列名1 数据类型,</span><br><span class="line">...</span><br><span class="line">)</span><br><span class="line"><span class="comment"># 整数</span></span><br><span class="line">INTEGER(size) </span><br><span class="line">INT(size) </span><br><span class="line">SMALLINT(size)  </span><br><span class="line">TINYINT(size) </span><br><span class="line"><span class="comment"># 带有小数的数字</span></span><br><span class="line">DECIMAL(size,d)</span><br><span class="line">NUMERIC(size,d)</span><br><span class="line"><span class="comment"># 固定长度字符串</span></span><br><span class="line">CHAR(size)</span><br><span class="line"><span class="comment">#可变长度字符串</span></span><br><span class="line">VARCHAR(size)</span><br><span class="line"><span class="comment"># 日期</span></span><br><span class="line">DATA(yyyymmdd)</span><br><span class="line"></span><br><span class="line"><span class="comment"># sql约束</span></span><br><span class="line"><span class="comment"># NOT NULL 约束强制列不接受 NULL 值</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># UNIQUE 约束唯一标识数据库表中的每条记录。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># PRIMARY KEY 约束唯一标识数据库表中的每条记录</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># FOREIGN KEY 约束用于预防破坏表之间连接的动作。</span></span><br><span class="line"><span class="comment"># FOREIGN KEY 约束也能防止非法数据插入外键列，因为它必须是它指向的那个表中的值之一。 </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># CHECK 约束用于限制列中的值的范围</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># DEFAULT 约束用于向列中插入默认值。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># CREATE INDEX 语句用于在表中创建索引。</span></span><br><span class="line"><span class="comment"># 在不读取整个表的情况下，索引使数据库应用程序可以更快地查找数据。</span></span><br><span class="line">CREATE INDEX 索引名 ON 表名(列,列)</span><br><span class="line"></span><br><span class="line"><span class="comment"># ALTER TABLE 语句用于在已有的表中添加、修改或删除列。</span></span><br><span class="line">ALTER TABLE 表名 ADD 列名 datatype </span><br><span class="line">ALTER TABLE 表名 ALTER COLUMN 列名 datatype</span><br><span class="line">ALTER TABLE 表名 DROP COLUMN 列名</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加  约束</span></span><br><span class="line">ADD 约束名(列) </span><br><span class="line"><span class="comment"># 重命名 约束 并定义多个列的约束</span></span><br><span class="line">ADD CONSTRAINT 别名 约束名 (列,列)</span><br><span class="line"><span class="comment"># 撤销约束</span></span><br><span class="line">DROP INDEX/CONSTRAINT 列名</span><br><span class="line"></span><br><span class="line"><span class="comment"># Auto-increment 会在新记录插入表中时生成一个唯一的数字。</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>blog</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>随笔</title>
     <url>/2021/03/28/%E9%9A%8F%E7%AC%94/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><ul>
+    <content><![CDATA[<ul>
 <li>No.1 梦想是不会发光的</li>
 </ul>
 <p>梦想是不会发光的，会发光的是追逐梦想的你。</p>
@@ -75,7 +94,7 @@
   <entry>
     <title>七爷</title>
     <url>/2021/03/28/%E4%B8%83%E7%88%B7/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><ul>
+    <content><![CDATA[<ul>
 <li><p>No.1<br>世间多求而不得之事，其实只是世人不懂得何为以退为进，只说是造化弄人罢了。</p>
 </li>
 <li><p>No.2<br>金玉其表，败絮其中；朽木不可雕，粪土之墙不可污也……</p>
@@ -114,7 +133,7 @@
   <entry>
     <title>夏目友人帐</title>
     <url>/2021/03/20/%E5%A4%8F%E7%9B%AE%E5%8F%8B%E4%BA%BA%E5%B8%90/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><p>如果一个人的离开就会带走我们关于他的记忆，那么又有什么能够证明他曾经来过，又有什么能够证明他的存在。记忆，这种虚无缥缈的东西，存在的价值是什么？既然多年之后便会化为虚无，那么为何又要存在。</p>
+    <content><![CDATA[<p>如果一个人的离开就会带走我们关于他的记忆，那么又有什么能够证明他曾经来过，又有什么能够证明他的存在。记忆，这种虚无缥缈的东西，存在的价值是什么？既然多年之后便会化为虚无，那么为何又要存在。</p>
 <p>记忆，不在于它本身的价值，而是在这段记忆里，我们所共有的经历。欢喜也好，悲伤也罢，都在当下，而我们所能掌控的不过就是现在。</p>
 ]]></content>
       <categories>
@@ -127,7 +146,7 @@
   <entry>
     <title>我是江小白“</title>
     <url>/2021/03/20/%E6%88%91%E6%98%AF%E6%B1%9F%E5%B0%8F%E7%99%BD/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><p>我是江小白。</p>
+    <content><![CDATA[<p>我是江小白。</p>
 <p>十年前的江小白。</p>
 <p>我和卢宇及席琳都凭各自的本事和特长考上了同一所高中，我们铁三角组合又可以在一起了。</p>
 <p>直到，我遇见了一个特别的女孩儿。</p>
@@ -152,7 +171,7 @@
   <entry>
     <title>我是佟离</title>
     <url>/2021/03/20/%E6%88%91%E6%98%AF%E4%BD%9F%E7%A6%BB/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><p>我是佟离。</p>
+    <content><![CDATA[<p>我是佟离。</p>
 <p>十年前的佟离。</p>
 <p>我喜欢江小白，从很小很小的时候就喜欢，江小白就是我心中的白月光。</p>
 <p>我有一个好朋友，她叫穆夕雨，一个活泼可爱阳光的女孩子，热爱音乐，和小白是好朋友，真是羡慕她。</p>
@@ -171,7 +190,7 @@
   <entry>
     <title>撒野</title>
     <url>/2021/03/20/%E6%92%92%E9%87%8E/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><p>我野蛮生长，没能成为自己的月亮，能遇见你，是银河赠与我的糖。</p>
+    <content><![CDATA[<p>我野蛮生长，没能成为自己的月亮，能遇见你，是银河赠与我的糖。</p>
 <ul>
 <li><p>NO.1<br>“你挺好的。”顾飞看着照片传输的进度条。<br>“在这儿，大概是挺好的吧。”蒋丞想起了刚才看到的李保国一家和那个瘸腿的女人，是啊，在充斥着这样的人生和这样的生活环境里，自己这样的人才能算得上“好”吧。<br>“有些事儿不需要比较就能看得到，”顾飞笑了笑，到了被茶喝了一口，“一个人是不是真的‘挺好’，只要是这个人就行，不需要看他在哪儿，身边是谁。”</p>
 </li>
@@ -215,7 +234,7 @@
   <entry>
     <title>假如历史是一群喵</title>
     <url>/2021/03/20/%E5%81%87%E5%A6%82%E5%8E%86%E5%8F%B2%E6%98%AF%E4%B8%80%E7%BE%A4%E5%96%B5/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="假如历史是一群喵"><a href="#假如历史是一群喵" class="headerlink" title="假如历史是一群喵"></a>假如历史是一群喵</h1><h3 id="盘古开天地"><a href="#盘古开天地" class="headerlink" title="盘古开天地"></a>盘古开天地</h3><ul>
+    <content><![CDATA[<h1 id="假如历史是一群喵"><a href="#假如历史是一群喵" class="headerlink" title="假如历史是一群喵"></a>假如历史是一群喵</h1><h3 id="盘古开天地"><a href="#盘古开天地" class="headerlink" title="盘古开天地"></a>盘古开天地</h3><ul>
 <li>手撑天、足抵地、双目化日月、血液化江海<h3 id="华夏诞生"><a href="#华夏诞生" class="headerlink" title="华夏诞生"></a>华夏诞生</h3></li>
 <li>炎帝—神农、皇帝、蚩尤</li>
 <li>蚩尤VS炎帝—–蚩尤胜</li>
@@ -253,7 +272,7 @@
   <entry>
     <title>matery主题安装及优化</title>
     <url>/2021/01/15/matery%E4%B8%BB%E9%A2%98%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BC%98%E5%8C%96/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="1-安装"><a href="#1-安装" class="headerlink" title="1.安装"></a>1.安装</h1><p>安装以后，可以使用以下两种方式执行hexo:</p>
+    <content><![CDATA[<h1 id="1-安装"><a href="#1-安装" class="headerlink" title="1.安装"></a>1.安装</h1><p>安装以后，可以使用以下两种方式执行hexo:</p>
 <ul>
 <li>npm hexo</li>
 <li>将hexo所在的目录下的node_modules添加到环境变量之中即可直接使用hexo:<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo &#39;PATH&#x3D;&quot;$PATH:.&#x2F;node_modules&#x2F;.bin&quot;&#39;&gt;&gt; ~&#x2F;.profile</span><br></pre></td></tr></table></figure>
@@ -283,7 +302,7 @@
   <entry>
     <title>node.js验证</title>
     <url>/2021/01/15/node-js%E9%AA%8C%E8%AF%81/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><ul>
+    <content><![CDATA[<ul>
 <li>Ctrl+R ，输入cmd打开控制面板<h3 id="1-验证是否安装好了"><a href="#1-验证是否安装好了" class="headerlink" title="1.验证是否安装好了"></a>1.验证是否安装好了</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">node -v</span><br></pre></td></tr></table></figure>
 <h3 id="2-验证npm"><a href="#2-验证npm" class="headerlink" title="2.验证npm"></a>2.验证npm</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm -v</span><br></pre></td></tr></table></figure>
 出现版本号表示安装成功  </li>
@@ -301,7 +320,7 @@
 <ul>
 <li>npm install xxx 把模块安装在当前项目中(node_modules)</li>
 <li>npm install xxx -g 把模块安装在全局环境中</li>
-<li>npm install <a href="mailto:&#x78;&#120;&#x78;&#64;&#x31;&#46;&#x30;&#46;&#x30;">&#x78;&#120;&#x78;&#64;&#x31;&#46;&#x30;&#46;&#x30;</a> 安装指定版本</li>
+<li>npm install <a href="mailto:&#120;&#x78;&#x78;&#x40;&#49;&#46;&#x30;&#46;&#x30;">&#120;&#x78;&#x78;&#x40;&#49;&#46;&#x30;&#46;&#x30;</a> 安装指定版本</li>
 </ul>
 ]]></content>
       <categories>
@@ -314,7 +333,7 @@
   <entry>
     <title>博客准备</title>
     <url>/2021/01/05/%E5%8D%9A%E5%AE%A2%E5%87%86%E5%A4%87/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="从现在开始要开始搞论文啦，2020-12-28第一次打卡"><a href="#从现在开始要开始搞论文啦，2020-12-28第一次打卡" class="headerlink" title="从现在开始要开始搞论文啦，2020.12.28第一次打卡"></a>从现在开始要开始搞论文啦，2020.12.28第一次打卡</h1><h2 id="题目：基于node-js的知识社区实现与管理"><a href="#题目：基于node-js的知识社区实现与管理" class="headerlink" title="题目：基于node.js的知识社区实现与管理"></a>题目：基于node.js的知识社区实现与管理</h2><p>在一开始准备论文的时候并不确定要做什么，而且当时正在准备考研，突然被通知要选导师了！！！</p>
+    <content><![CDATA[<h1 id="从现在开始要开始搞论文啦，2020-12-28第一次打卡"><a href="#从现在开始要开始搞论文啦，2020-12-28第一次打卡" class="headerlink" title="从现在开始要开始搞论文啦，2020.12.28第一次打卡"></a>从现在开始要开始搞论文啦，2020.12.28第一次打卡</h1><h2 id="题目：基于node-js的知识社区实现与管理"><a href="#题目：基于node-js的知识社区实现与管理" class="headerlink" title="题目：基于node.js的知识社区实现与管理"></a>题目：基于node.js的知识社区实现与管理</h2><p>在一开始准备论文的时候并不确定要做什么，而且当时正在准备考研，突然被通知要选导师了！！！</p>
 <p>ps：<del>就在前几个小时前刚跟我闺蜜嘚瑟过我现在不着急论文，划掉划掉</del></p>
 <p>幸好的是之前在准备考研的时候，有点儿烦躁，就去搜了搜怎么美化个人博客，本身也挺感兴趣的，17年的时候注册了第一个博客，那时候跟风嘛，就没事发发代码、笔记什么的，后来嫌弃页面丑，就又注册了博客园（因为可以自己搞好看的页面）然后还是不满足吧，在搜索问题的时候，看到各位大佬们自己搭建的个人博客，好好看！！！就没事的时候搜一搜，倒是没想到算是为论文准备打了个铺垫吧。</p>
 <h2 id="个人博客搭建现在热门的有两种wordpress和hexo"><a href="#个人博客搭建现在热门的有两种wordpress和hexo" class="headerlink" title="个人博客搭建现在热门的有两种wordpress和hexo"></a>个人博客搭建现在热门的有两种<strong>wordpress和hexo</strong></h2><ul>
