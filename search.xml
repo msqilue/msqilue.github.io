@@ -320,7 +320,7 @@
 <ul>
 <li>npm install xxx 把模块安装在当前项目中(node_modules)</li>
 <li>npm install xxx -g 把模块安装在全局环境中</li>
-<li>npm install <a href="mailto:&#x78;&#120;&#120;&#x40;&#x31;&#x2e;&#48;&#x2e;&#48;">&#x78;&#120;&#120;&#x40;&#x31;&#x2e;&#48;&#x2e;&#48;</a> 安装指定版本</li>
+<li>npm install <a href="mailto:&#120;&#120;&#120;&#64;&#x31;&#x2e;&#x30;&#x2e;&#x30;">&#120;&#120;&#120;&#64;&#x31;&#x2e;&#x30;&#x2e;&#x30;</a> 安装指定版本</li>
 </ul>
 ]]></content>
       <categories>
